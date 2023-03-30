@@ -1,6 +1,6 @@
 ## Github Resume
 
-This project is a Java Spring Boot application that uses the Github API to fetch the details of a github account The application allows the user to filter the results based on language, creation date, sorting and ordering parameters.
+This project is a Java Spring Boot application that uses the Github API to fetch the details of a github account The application retrieves the github account details by the accountName and also in required media formats (JSON,XML).
 ### Requirements
 To run this project, you need:
 
@@ -46,7 +46,7 @@ to fetch details of accountName with response type as mediaType:
 The endpoint accepts the following query parameters:
 
 * **name** (required ) - the github accountName for which details are expected
-*  **mediaType** (optional, default: "JSON") - the response format expected for the details
+*  **mediaType** (optional, default: "JSON") - the response format expected for the details,There are two options only XML or JSON
 
 ## Example Request
 
