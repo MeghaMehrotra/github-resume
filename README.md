@@ -56,32 +56,56 @@ http://localhost:8080/resume?name=test&mediaType=xml
 ## Example Response
 ```bash
 {
-    "login": "test",
-    "url": "https://api.github.com/users/test",
-    "repos_url": "https://api.github.com/users/test/repos",
-    "repos": [
-        {
-            "name": "HelloWorld",
-            "html_url": "https://github.com/test/HelloWorld"
-        },
-        {
-            "name": "rokehan",
-            "html_url": "https://github.com/test/rokehan"
-        },
-        {
-            "name": "SDWebImage",
-            "html_url": "https://github.com/test/SDWebImage"
-        },
-        {
-            "name": "sNews",
-            "html_url": "https://github.com/test/sNews"
-        },
-        {
-            "name": "Test--01",
-            "html_url": "https://github.com/test/Test--01"
+    "responseMessage": "Github Resume fetch success!!",
+    "status": true,
+    "body": {
+        "login": "test",
+        "url": "https://api.github.com/users/test",
+        "repos_url": "https://api.github.com/users/test/repos",
+        "repos": [
+            {
+                "name": "HelloWorld",
+                "html_url": "https://github.com/test/HelloWorld",
+                "description": "Create hello world",
+                "language": null,
+                "size": 136
+            },
+            {
+                "name": "rokehan",
+                "html_url": "https://github.com/test/rokehan",
+                "description": null,
+                "language": "PHP",
+                "size": 9035
+            },
+            {
+                "name": "SDWebImage",
+                "html_url": "https://github.com/test/SDWebImage",
+                "description": "Asynchronous image downloader with cache support with an UIImageView category",
+                "language": "Objective-C",
+                "size": 3379
+            },
+            {
+                "name": "sNews",
+                "html_url": "https://github.com/test/sNews",
+                "description": null,
+                "language": null,
+                "size": 48
+            },
+            {
+                "name": "Test--01",
+                "html_url": "https://github.com/test/Test--01",
+                "description": null,
+                "language": "Matlab",
+                "size": 120
+            }
+        ],
+        "public_repos": 5,
+        "languagePercentages": {
+            "Objective-C": 26.56864286837553,
+            "PHP": 71.04104418933794,
+            "Matlab": 0.9435445824815222
         }
-    ],
-    "public_repos": 5
+    }
 }
 ```
 
