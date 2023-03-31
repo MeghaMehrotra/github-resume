@@ -46,12 +46,12 @@ to fetch details of accountName with response type as mediaType:
 The endpoint accepts the following query parameters:
 
 * **name** (required ) - the github accountName for which details are expected
-*  **mediaType** (optional, default: "JSON") - the response format expected for the details,There are two options only XML or JSON
+*  **mediaType** (optional, default: "json") - the response format expected for the details,There are two options only XML or JSON
 
 ## Example Request
 
 ```bash
-http://localhost:8080/resume?name=test&mediaType=XML
+http://localhost:8080/resume?name=test&mediaType=xml
 ```
 ## Example Response
 ```bash
@@ -95,9 +95,8 @@ mvn test
 This will run the unit tests for the GithubRepoController, GithubRepoService, and UrlBuilderService classes.
 
 ### Built With
+Java
 Spring Boot
 Spring Web
-Spring Validation
-Jackson
-JUnit 4
-Mockito
+JUnit
+
