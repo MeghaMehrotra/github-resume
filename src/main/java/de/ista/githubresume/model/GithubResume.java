@@ -5,6 +5,7 @@ import jdk.jfr.DataAmount;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author mmehrotra
@@ -18,5 +19,6 @@ public class GithubResume {
     String repos_url;
     List<Repo> repos;
     Integer public_repos;
+    Map<String,Double> languagePercentages;
 
 }

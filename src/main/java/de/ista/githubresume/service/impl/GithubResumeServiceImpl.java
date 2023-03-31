@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -67,7 +69,9 @@ public class GithubResumeServiceImpl implements GithubResumeService {
                         if (repoResponse.getStatusCode().is2xxSuccessful()) {
                             if (repoResponse.getBody() != null) {
                                 githubResume.setRepos(repoResponse.getBody());
+                                githubResume.setLanguagePercentages(getLanguagePercentages(repoResponse.getBody()));
                             }
+
                             return githubResume;
                         } else {
                             logger.debug("Failed to fetch the repos with status code {}", repoResponse.getStatusCode());
@@ -83,5 +87,22 @@ public class GithubResumeServiceImpl implements GithubResumeService {
             logger.debug("Error while calling REST API: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return githubResume;
+    }
+
+    public Map<String, Double> getLanguagePercentages(List<Repo> repos) {
+
+        double totalSize = repos.stream().mapToDouble(Repo::getSize).sum();
+
+        Map<String, Double> languagePercentages = new HashMap<>();
+        for (Repo repo : repos) {
+            String language = repo.getLanguage();
+            if (language != null) {
+                double size = repo.getSize();
+                double percentage = size / totalSize * 100;
+                languagePercentages.merge(language, percentage, Double::sum);
+            }
+        }
+
+        return languagePercentages;
     }
 }
