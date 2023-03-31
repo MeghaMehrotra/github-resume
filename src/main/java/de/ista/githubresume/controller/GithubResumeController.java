@@ -1,14 +1,17 @@
 package de.ista.githubresume.controller;
 
+import de.ista.githubresume.dto.MessageDTO;
 import de.ista.githubresume.model.GithubResume;
 import de.ista.githubresume.model.MediaFormat;
 import de.ista.githubresume.service.GithubResumeService;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,11 +24,12 @@ import java.util.Optional;
  */
 
 @RestController
+@Validated
 public class GithubResumeController {
 
     private static final Logger logger = LogManager.getLogger(GithubResumeController.class);
 
-    private GithubResumeService githubResumeService;
+    private final GithubResumeService githubResumeService;
 
 
     public GithubResumeController(GithubResumeService githubResumeService) {
@@ -41,23 +45,29 @@ public class GithubResumeController {
      * @return
      */
     @GetMapping(value = "/resume", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<GithubResume> getResume(@RequestParam(value = "name", required = true) String accountName,
-                                                  @RequestParam(required = false, defaultValue = "json") MediaFormat mediaType,
-                                                  @RequestHeader HttpHeaders headers) {
+    public ResponseEntity<MessageDTO> getResume(@RequestParam(value = "name") String accountName,
+                                                @RequestParam(required = false, defaultValue = "json") String mediaType,
+                                                @RequestHeader HttpHeaders headers) {
 
-
+        logger.info("Request received with accountName {} & mediaType {}", accountName, mediaType);
         if (!headers.containsKey(HttpHeaders.ACCEPT)) {
-            headers.set(HttpHeaders.CONTENT_TYPE, "application/" + mediaType.name().toLowerCase());
+            MediaFormat format;
+            try {
+                format = MediaFormat.getMediaFormat(mediaType);
+                headers.set(HttpHeaders.CONTENT_TYPE, "application/" + format.name().toLowerCase());
+            } catch (IllegalArgumentException exception) {
+                logger.debug("Invalid MediaFormat");
+                return new ResponseEntity<>(new MessageDTO<>("Invalid MediaFormat", null, false), headers, HttpStatus.BAD_REQUEST);
+            }
         }
-        logger.info("Request received with accountName {} & mediaType {}", accountName, mediaType.name());
+
         Optional<GithubResume> githubResumeOptional = Optional.ofNullable(githubResumeService.getGithubResumeByName(accountName));
         if (githubResumeOptional.isPresent()) {
-            return new ResponseEntity<>(githubResumeOptional.get(), headers, HttpStatus.OK);
+            return new ResponseEntity<>(
+                    new MessageDTO<>("Github Resume fetch success!!", githubResumeOptional.get(), true), headers, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MessageDTO<>("Not a valid account to create Github Resume", false), headers, HttpStatus.NOT_FOUND);
         }
-
-
     }
 
 }

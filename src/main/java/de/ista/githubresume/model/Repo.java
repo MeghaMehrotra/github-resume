@@ -11,4 +11,6 @@ public class Repo {
 
     String name;
     String html_url;
+    String description;
+
 }
