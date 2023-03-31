@@ -1,6 +1,7 @@
 package de.ista.githubresume.controller;
 
 import de.ista.githubresume.model.GithubResume;
+import de.ista.githubresume.model.MediaFormat;
 import de.ista.githubresume.service.GithubResumeService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,7 +9,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,8 +41,10 @@ public class GithubResumeController {
      * @return
      */
     @GetMapping(value = "/resume", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<GithubResume> getResume(@RequestParam(value = "name", required = true) String accountName, @RequestParam(required = false, defaultValue = "JSON") de.ista.githubresume.model.MediaType mediaType,
+    public ResponseEntity<GithubResume> getResume(@RequestParam(value = "name", required = true) String accountName,
+                                                  @RequestParam(required = false, defaultValue = "json") MediaFormat mediaType,
                                                   @RequestHeader HttpHeaders headers) {
+
 
         if (!headers.containsKey(HttpHeaders.ACCEPT)) {
             headers.set(HttpHeaders.CONTENT_TYPE, "application/" + mediaType.name().toLowerCase());

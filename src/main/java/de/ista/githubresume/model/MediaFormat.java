@@ -3,7 +3,7 @@ package de.ista.githubresume.model;
 /**
  * @author mmehrotra
  */
-public enum MediaType {
-    JSON,
-    XML;
+public enum MediaFormat {
+    json,
+    xml;
 }

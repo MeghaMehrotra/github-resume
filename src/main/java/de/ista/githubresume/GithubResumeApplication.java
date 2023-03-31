@@ -10,4 +10,5 @@ public class GithubResumeApplication {
 		SpringApplication.run(GithubResumeApplication.class, args);
 	}
 
+
 }
